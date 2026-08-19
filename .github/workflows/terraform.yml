@@ -6,6 +6,15 @@ on:
       - main
 
   workflow_dispatch:
+    inputs:
+      action:
+        description: "Terraform action to run"
+        required: true
+        type: choice
+        options:
+          - plan
+          - apply
+        default: plan
 
 permissions:
   id-token: write
@@ -33,4 +42,9 @@ jobs:
         run: terraform init
 
       - name: Terraform Plan
+        if: github.event_name == 'push' || inputs.action == 'plan'
         run: terraform plan
+
+      - name: Terraform Apply
+        if: github.event_name == 'workflow_dispatch' && inputs.action == 'apply'
+        run: terraform apply -auto-approve

@@ -6,3 +6,4 @@ tags = {
   managed_by  = "terraform"
   project     = "terraform-demo"
 }
+storage_account_name = "javedterraformsa01"
